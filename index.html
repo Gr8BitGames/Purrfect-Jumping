@@ -12,18 +12,10 @@
             text-align: center;
         }
 
-        h1 {
-            margin-top: 40px;
-        }
-
-        h2 {
-            margin-bottom: 30px;
-        }
-
         table {
             border-collapse: collapse;
             width: 400px;
-            margin: 0 auto;
+            margin: 30px auto;
         }
 
         th {
@@ -58,37 +50,49 @@
 </table>
 
 <script>
+
 var request = new XMLHttpRequest();
 
 request.open(
     "GET",
-    "https://dreamlo.com/lb/696c06428f40bb1184b24a2e/json",
+    "https://purrfec-jumping-score.nathanmatthews1212.workers.dev/",
     true
 );
 
 request.onreadystatechange = function() {
 
-    if (request.readyState == 4 && request.status == 200) {
+    if (request.readyState == 4) {
 
-        var data = JSON.parse(request.responseText);
-        var scores = data.dreamlo.leaderboard.entry;
+        if (request.status == 200) {
 
-        var html = "";
+            var data = JSON.parse(request.responseText);
+            var scores = data.dreamlo.leaderboard.entry;
 
-        for (var i = 0; i < scores.length; i++) {
+            var html = "";
 
-            html += "<tr>";
-            html += "<td>" + (i + 1) + "</td>";
-            html += "<td>" + scores[i].name + "</td>";
-            html += "<td>" + scores[i].score + "</td>";
-            html += "</tr>";
+            for (var i = 0; i < scores.length; i++) {
+
+                html += "<tr>";
+                html += "<td>" + (i + 1) + "</td>";
+                html += "<td>" + scores[i].name + "</td>";
+                html += "<td>" + scores[i].score + "</td>";
+                html += "</tr>";
+
+            }
+
+            document.getElementById("scores").innerHTML = html;
+
+        } else {
+
+            document.getElementById("scores").innerHTML =
+                "<tr><td colspan='3'>Unable to load scores</td></tr>";
+
         }
-
-        document.getElementById("scores").innerHTML = html;
     }
 };
 
 request.send();
+
 </script>
 
 </body>
